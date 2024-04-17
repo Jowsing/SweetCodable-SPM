@@ -7,6 +7,7 @@ public struct SubCodable: MemberMacro {
         let container = try MemberContainer(decl: declaration)
         let decoderInit = try container.genDecoderInit(config: .init(override: true))
         let encodeFunc = try container.genEncodeFunc(config: .init(override: true))
-        return [decoderInit, encodeFunc]
+        let defaultInit = try container.genDefaultInit(config: .init(override: true))
+        return [decoderInit, encodeFunc, defaultInit]
     }
 }

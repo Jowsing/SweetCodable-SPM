@@ -23,6 +23,18 @@ struct Test {
     var h5: NN?
 }
 
+@Codable
+class BaseModel {
+    var name: String
+}
+
+@SubCodable
+class SubModel: BaseModel {
+    var age = 0
+}
+
+
+
 func decode<T: Codable>(json: String) -> T? {
     guard let data = json.data(using: .utf8) else { return nil }
     return try? JSONDecoder().decode(T.self, from: data)
@@ -37,3 +49,12 @@ let json = """
 let t: Test? = decode(json: json)
 print(t ?? "decode result = nil")
 
+let json2 = """
+{
+    "name": "jowsing",
+    "age": "22"
+}
+"""
+let model: SubModel? = decode(json: json2)
+print(model?.name ?? "decode result = nil")
+print(model?.age ?? "decode result = nil")
