@@ -24,13 +24,13 @@ struct Test {
 }
 
 @Codable
-class BaseModel {
+public class BaseModel {
     var name: String
 }
 
 @SubCodable
-class SubModel: BaseModel {
-    var age = 0
+public class SubModel: BaseModel {
+    public var age = 0
 }
 
 

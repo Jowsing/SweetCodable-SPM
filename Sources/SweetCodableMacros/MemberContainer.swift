@@ -124,7 +124,7 @@ extension MemberContainer {
         
         let encoder: DeclSyntax =
         """
-        \(raw: attributesPrefix(option: [.open, .public]))\(raw: config.override ? "override" : "") func encode(to encoder: Encoder) throws {
+        \(raw: attributesPrefix(option: [.open, .public]))\(raw: config.override ? "override " : "")func encode(to encoder: Encoder) throws {
             \(raw: config.override ? "try super.encode(to: encoder)\n" : "")var container = encoder.container(keyedBy: AnyCodingKey.self)
             \(raw: body)
         }
@@ -146,7 +146,7 @@ extension MemberContainer {
         
         let defaultInit: DeclSyntax =
         """
-        \(raw: attributesPrefix(option: [.public]))\(raw: config.override ? "override" : "") init() {
+        \(raw: attributesPrefix(option: [.public]))\(raw: config.override ? "override " : "")init() {
             \(raw: config.override ? "super.init()" : "")\(raw: body)
         }
         """
