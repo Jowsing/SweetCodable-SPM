@@ -15,7 +15,7 @@ struct NN: Codable, Defaultable {
 struct Test {
     @CodingKey("h")
     var m: String
-    var nn = NN(name: "hihi")
+    var nn = Bool.random() ? NN(name: "yes") : NN(name: "no")
     var h1 = ""
     var h2 = 0.0
     var h3 = false
