@@ -31,9 +31,12 @@ extension VariableDeclSyntax {
     }
 
     var inferType: String? {
-        var type = bindings.compactMap(\.typeAnnotation).first?.type.description
+        if let type = bindings.compactMap(\.typeAnnotation).first?.type.description {
+            return type.removeLastSpace()
+        }
+        var type: String?
         // try infer type
-        if type == nil, let initExpr = bindings.compactMap(\.initializer).first?.value {
+        if let initExpr = bindings.compactMap(\.initializer).first?.value {
             if initExpr.is(StringLiteralExprSyntax.self) {
                 type = "String"
             } else if initExpr.is(IntegerLiteralExprSyntax.self) {
@@ -42,12 +45,6 @@ extension VariableDeclSyntax {
                 type = "Double"
             } else if initExpr.is(BooleanLiteralExprSyntax.self) {
                 type = "Bool"
-            } else {
-                var initExprStr = initExpr.description
-                if initExprStr.hasSuffix("?") {
-                    initExprStr = String(initExprStr.prefix(initExprStr.count - 1))
-                }
-                type = initExprStr
             }
         }
         return type

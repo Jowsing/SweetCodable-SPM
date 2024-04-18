@@ -134,20 +134,25 @@ extension MemberContainer {
     }
     
     func genDefaultInit(config: GenConfig) throws -> DeclSyntax {
-        let body = properties.map { property -> String in
+        let params = properties.map { property -> String in
+            let declare = "\(property.name): \(property.type)"
             if let initializerExpr = property.initializerExpr {
-                return "self.\(property.name) = \(initializerExpr)"
+                return "\(declare) = \(initializerExpr)"
             } else if property.isOptional {
-                return "self.\(property.name) = nil"
+                return "\(declare) = nil"
             } else {
-                return "self.\(property.name) = \(property.type).default"
+                return "\(declare) = \(property.type).default"
             }
+        }.joined(separator: ", ")
+        
+        let body = properties.map { property -> String in
+            return "self.\(property.name) = \(property.name)"
         }.joined(separator: "\n")
         
         let defaultInit: DeclSyntax =
         """
-        \(raw: attributesPrefix(option: [.public]))\(raw: config.override ? "override " : "")init() {
-            \(raw: config.override ? "super.init()" : "")\(raw: body)
+        \(raw: attributesPrefix(option: [.public]))init(\(raw: params)) {
+            \(raw: body)\(raw: config.override ? "\nsuper.init()" : "")
         }
         """
         

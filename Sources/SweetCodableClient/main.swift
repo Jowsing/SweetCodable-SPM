@@ -15,12 +15,13 @@ struct NN: Codable, Defaultable {
 struct Test {
     @CodingKey("h")
     var m: String
-    var nn = Bool.random() ? NN(name: "yes") : NN(name: "no")
+    var h5: NN?
     var h1 = ""
     var h2 = 0.0
     var h3 = false
     var h4 = 0
-    var h5: NN?
+    var h0: Int = Bool.random() ? 1 : 0
+    var m1:   Int   = 1
 }
 
 @Codable
